@@ -27,8 +27,6 @@ def date():
 
 def greet():
     speak("Welcome back! I'm Iris.")
-    date()
-    time()
     hour = datetime.datetime.now().hour
 
     if hour >= 6 and hour < 12:
@@ -50,12 +48,23 @@ def takeCommand():
         audio = r.listen(source)
     try:
         print("Recognizing........")
-        query = r.recognize_google(audio, 'en-US')
-        print(query)
+        query = r.recognize_google(audio, language = 'en-US')
     except Exception as e:
         print(e)
         speak("Say that again please.......")
         return "None"
     return query
 
-greet()
+if __name__ == "__main__":
+    greet()
+
+
+    while True:
+        query = takeCommand().lower()
+        print(query)
+        if "time" in query:
+             time()
+        elif "date" in query:
+            date()
+        elif "thank you" in query or "bye" in query or "offline" in query:
+            quit()
