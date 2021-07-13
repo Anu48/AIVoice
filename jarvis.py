@@ -1,6 +1,7 @@
 import pyttsx3
 import datetime
 import speech_recognition as sr
+import wikipedia
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -66,5 +67,11 @@ if __name__ == "__main__":
              time()
         elif "date" in query:
             date()
+        elif "wikipedia" in query:
+            speak("Searching")
+            query = query.replace("wikipedia ", "")
+            print(query)
+            result = wikipedia.summary(query, sentences = 2)
+            speak(result)
         elif "thank you" in query or "bye" in query or "offline" in query:
             quit()
