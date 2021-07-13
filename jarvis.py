@@ -1,5 +1,6 @@
 import pyttsx3
 import datetime
+import speech_recognition as sr
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -28,8 +29,33 @@ def greet():
     speak("Welcome back! I'm Iris.")
     date()
     time()
+    hour = datetime.datetime.now().hour
+
+    if hour >= 6 and hour < 12:
+        speak("Good morning")
+    elif hour >= 12 and hour < 18:
+        speak("Good afternoon")
+    elif hour >= 18 and hour <= 24:
+        speak ("Good evening")
+    else:
+        speak("Good night")
+
     speak("How can I help you?")
 
-# speak("Hello! I'm Iris. How can I help you?")
-# time()
+def takeCommand():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening")
+        r.pause_threshold = 1
+        audio = r.listen(source)
+    try:
+        print("Recognizing........")
+        query = r.recognize_google(audio, 'en-US')
+        print(query)
+    except Exception as e:
+        print(e)
+        speak("Say that again please.......")
+        return "None"
+    return query
+
 greet()
