@@ -5,6 +5,7 @@ import wikipedia
 import webbrowser as wb
 import os
 import pyautogui
+import psutil
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -63,6 +64,13 @@ def screenshot():
     img = pyautogui.screenshot()
     img.save("C:/Users/anous/Desktop/AIVoice/ss.png")
 
+def cpu():
+    usage = str(psutil.cpu_percent())
+    speak("CPU is at " + usage)
+
+    battery = psutil.sensors_battery()
+    speak("Battery is at: "+ str(battery.percent)+"%")
+
 if __name__ == "__main__":
     greet()
 
@@ -112,5 +120,7 @@ if __name__ == "__main__":
         elif "screenshot" in query:
             screenshot();
             speak("Screenshot complete")
+        elif "cpu" in query:
+            cpu()
         elif "thank you" in query or "bye" in query or "offline" in query:
             quit()
