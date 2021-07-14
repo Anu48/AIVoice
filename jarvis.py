@@ -3,6 +3,7 @@ import datetime
 import speech_recognition as sr
 import wikipedia
 import webbrowser as wb
+import os
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -79,6 +80,11 @@ if __name__ == "__main__":
             speak("Opening " + search)
             print(search)
             wb.get(chromepath).open_new_tab(search.replace(" ", "") + ".com")
-
+        elif "logout" in query:
+            os.system("shutdown - l")
+        elif "shutdown" in query:
+            os.system("shutdown /s /t 1")
+        elif "restart" in query:
+            os.system("shutdown /r /t 1")
         elif "thank you" in query or "bye" in query or "offline" in query:
             quit()
