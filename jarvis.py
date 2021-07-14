@@ -80,11 +80,30 @@ if __name__ == "__main__":
             speak("Opening " + search)
             print(search)
             wb.get(chromepath).open_new_tab(search.replace(" ", "") + ".com")
-        elif "logout" in query:
+        elif "log out" in query:
             os.system("shutdown - l")
         elif "shutdown" in query:
             os.system("shutdown /s /t 1")
         elif "restart" in query:
             os.system("shutdown /r /t 1")
+        elif "play songs" in query:
+            songs_dir = "C:/Users/Default/Music"
+            songs = os.listdir(songs_dir)
+            os.startfile(os.path.join(songs_dir, songs[0]))
+        elif "remember" in query:
+            speak("What should I remember?")
+            data = takeCommand()
+            speak("remember: " + data)
+            remember = open("data.txt", "a")
+            currdate = datetime.datetime.now().date()
+            remember.write(currdate.strftime('%B %d, %Y') + ": " + data +"\n")
+            remember.close()
+        elif "do you know anything" in query:
+            remember = open("data.txt", "r")
+            lines = remember.readlines()
+            speak("Why yes ofcourse, I do remember the following:")
+            for line in lines:
+                speak(line.strip())
+
         elif "thank you" in query or "bye" in query or "offline" in query:
             quit()
