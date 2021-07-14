@@ -4,6 +4,7 @@ import speech_recognition as sr
 import wikipedia
 import webbrowser as wb
 import os
+import pyautogui
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -58,6 +59,10 @@ def takeCommand():
         return "None"
     return query
 
+def screenshot():
+    img = pyautogui.screenshot()
+    img.save("C:/Users/anous/Desktop/AIVoice/ss.png")
+
 if __name__ == "__main__":
     greet()
 
@@ -104,6 +109,8 @@ if __name__ == "__main__":
             speak("Why yes ofcourse, I do remember the following:")
             for line in lines:
                 speak(line.strip())
-
+        elif "screenshot" in query:
+            screenshot();
+            speak("Screenshot complete")
         elif "thank you" in query or "bye" in query or "offline" in query:
             quit()
