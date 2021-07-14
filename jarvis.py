@@ -106,7 +106,7 @@ if __name__ == "__main__":
             songs_dir = "C:/Users/Default/Music"
             songs = os.listdir(songs_dir)
             os.startfile(os.path.join(songs_dir, songs[0]))
-        elif "remember" in query:
+        elif "remind" in query:
             speak("What should I remember?")
             data = takeCommand()
             speak("remember: " + data)
@@ -114,7 +114,7 @@ if __name__ == "__main__":
             currdate = datetime.datetime.now().date()
             remember.write(currdate.strftime('%B %d, %Y') + ": " + data +"\n")
             remember.close()
-        elif "do you know anything" in query:
+        elif "do you remember anything" in query:
             remember = open("data.txt", "r")
             lines = remember.readlines()
             speak("Why yes ofcourse, I do remember the following:")
