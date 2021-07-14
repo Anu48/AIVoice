@@ -6,6 +6,7 @@ import webbrowser as wb
 import os
 import pyautogui
 import psutil
+import pyjokes
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -71,6 +72,8 @@ def cpu():
     battery = psutil.sensors_battery()
     speak("Battery is at: "+ str(battery.percent)+"%")
 
+def jokes():
+    speak(pyjokes.get_joke())
 if __name__ == "__main__":
     greet()
 
@@ -122,5 +125,7 @@ if __name__ == "__main__":
             speak("Screenshot complete")
         elif "cpu" in query:
             cpu()
+        elif "joke" in query:
+            jokes()
         elif "thank you" in query or "bye" in query or "offline" in query:
             quit()
