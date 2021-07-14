@@ -2,6 +2,7 @@ import pyttsx3
 import datetime
 import speech_recognition as sr
 import wikipedia
+import webbrowser as wb
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -27,7 +28,7 @@ def date():
     speak(year)
 
 def greet():
-    speak("Welcome back! I'm Iris.")
+    speak("Welcome back Anoushka!")
     hour = datetime.datetime.now().hour
 
     if hour >= 6 and hour < 12:
@@ -49,7 +50,7 @@ def takeCommand():
         audio = r.listen(source)
     try:
         print("Recognizing........")
-        query = r.recognize_google(audio, language = 'en-US')
+        query = r.recognize_google(audio, language = 'en-CA')
     except Exception as e:
         print(e)
         speak("Say that again please.......")
@@ -58,7 +59,6 @@ def takeCommand():
 
 if __name__ == "__main__":
     greet()
-
 
     while True:
         query = takeCommand().lower()
@@ -70,8 +70,15 @@ if __name__ == "__main__":
         elif "wikipedia" in query:
             speak("Searching")
             query = query.replace("wikipedia ", "")
-            print(query)
             result = wikipedia.summary(query, sentences = 2)
             speak(result)
+        elif "chrome" in query:
+            speak("What should I open on Google Chrome")
+            chromepath = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
+            search = takeCommand().lower()
+            speak("Opening " + search)
+            print(search)
+            wb.get(chromepath).open_new_tab(search.replace(" ", "") + ".com")
+
         elif "thank you" in query or "bye" in query or "offline" in query:
             quit()
