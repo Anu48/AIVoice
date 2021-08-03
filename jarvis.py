@@ -1,3 +1,4 @@
+from urllib import request
 import pyttsx3
 import datetime
 import speech_recognition as sr
@@ -7,6 +8,8 @@ import os
 import pyautogui
 import psutil
 import pyjokes
+import requests, json
+from googlesearch import search
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -74,6 +77,33 @@ def cpu():
 
 def jokes():
     speak(pyjokes.get_joke())
+
+def open_website(query):
+    chromepath = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
+    for j in search(query, tld="com", num=10, stop=1, pause=2):
+        wb.get(chromepath).open_new_tab(j)
+
+def weather():
+    api_key = "b6f224a6df0022630b28285fe66293ff" #can get in https://openweathermap.org/price
+    url = "http://api.openweathermap.org/data/2.5/weather?"
+    speak("Which city are you looking at?")
+    city = takeCommand().lower()
+    complete_url = url + "appid=" + api_key + "&q=" + city
+    response = requests.get(complete_url)
+    x = response.json()
+    print(x)
+    if x['cod'] != "404":
+        y = x['main']
+        temperature = y['temp'] - 273.15
+        print(temperature)
+        pressure = y["pressure"]
+        humidity = y["humidity"]
+        weather_description = x["weather"][0]["description"]
+        speak("The current weather in " + city + " is " + temperature + " degrees celcius with atmospheric pressure at " + pressure +
+         " hPa and humidity at " + humidity + " percentage. One word to describe: " + weather_description)
+    else:
+        speak("Say that again please.......")
+
 if __name__ == "__main__":
     greet()
 
@@ -89,13 +119,9 @@ if __name__ == "__main__":
             query = query.replace("wikipedia ", "")
             result = wikipedia.summary(query, sentences = 2)
             speak(result)
-        elif "chrome" in query:
-            speak("What should I open on Google Chrome")
-            chromepath = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"
-            search = takeCommand().lower()
-            speak("Opening " + search)
-            print(search)
-            wb.get(chromepath).open_new_tab(search.replace(" ", "") + ".com")
+        elif "open" in query:
+            speak("Opening " + query.replace("open ", ""))
+            open_website(query.replace("open ", ""))
         elif "log out" in query:
             os.system("shutdown - l")
         elif "shutdown" in query:
@@ -127,5 +153,9 @@ if __name__ == "__main__":
             cpu()
         elif "joke" in query:
             jokes()
+        elif "weather" in query:
+            weather()
         elif "thank you" in query or "bye" in query or "offline" in query:
             quit()
+        else:
+            speak("Say that again please")
