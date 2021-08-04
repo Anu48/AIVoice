@@ -86,21 +86,19 @@ def open_website(query):
 def weather():
     api_key = "" #can get in https://openweathermap.org/price
     url = "http://api.openweathermap.org/data/2.5/weather?"
-    speak("Which city are you looking at?")
+    speak("Which city are you looking for?")
     city = takeCommand().lower()
     complete_url = url + "appid=" + api_key + "&q=" + city
     response = requests.get(complete_url)
     x = response.json()
-    print(x)
     if x['cod'] != "404":
         y = x['main']
-        temperature = y['temp'] - 273.15
-        print(temperature)
+        temperature = round(y['temp'] - 273.15)
         pressure = y["pressure"]
         humidity = y["humidity"]
         weather_description = x["weather"][0]["description"]
-        speak("The current weather in " + city + " is " + temperature + " degrees celcius with atmospheric pressure at " + pressure +
-         " hPa and humidity at " + humidity + " percentage. One word to describe: " + weather_description)
+        speak("The current weather in " + city + " is " + str(temperature) + " degrees celcius with atmospheric pressure at " + str(pressure) +
+         " hPa and humidity at " + str(humidity) + " percentage. One word to describe: " + str(weather_description))
     else:
         speak("Say that again please.......")
 
@@ -109,30 +107,30 @@ if __name__ == "__main__":
 
     while True:
         query = takeCommand().lower()
-        print(query)
-        if "time" in query:
+
+        if "time" in query: #time feature
              time()
-        elif "date" in query:
+        elif "date" in query: #date feature
             date()
-        elif "wikipedia" in query:
+        elif "wikipedia" in query: #search in wikipedia feature
             speak("Searching")
             query = query.replace("wikipedia ", "")
             result = wikipedia.summary(query, sentences = 2)
             speak(result)
-        elif "open" in query:
+        elif "open" in query: #opening a website 
             speak("Opening " + query.replace("open ", ""))
             open_website(query.replace("open ", ""))
-        elif "log out" in query:
+        elif "log out" in query: #log out from computer
             os.system("shutdown - l")
-        elif "shutdown" in query:
+        elif "shutdown" in query: #shut down computer
             os.system("shutdown /s /t 1")
-        elif "restart" in query:
+        elif "restart" in query: #restart computer
             os.system("shutdown /r /t 1")
-        elif "play songs" in query:
+        elif "play songs" in query: #play music in the system
             songs_dir = "C:/Users/Default/Music"
             songs = os.listdir(songs_dir)
             os.startfile(os.path.join(songs_dir, songs[0]))
-        elif "remind" in query:
+        elif "remind" in query: #put things to remember
             speak("What should I remember?")
             data = takeCommand()
             speak("remember: " + data)
@@ -140,22 +138,20 @@ if __name__ == "__main__":
             currdate = datetime.datetime.now().date()
             remember.write(currdate.strftime('%B %d, %Y') + ": " + data +"\n")
             remember.close()
-        elif "do you remember anything" in query:
+        elif "do you remember anything" in query: #reads out what is remembered
             remember = open("data.txt", "r")
             lines = remember.readlines()
             speak("Why yes ofcourse, I do remember the following:")
             for line in lines:
                 speak(line.strip())
-        elif "screenshot" in query:
+        elif "screenshot" in query: #takes a screenshot
             screenshot();
             speak("Screenshot complete")
-        elif "cpu" in query:
+        elif "cpu" in query: #says the cpu and battery percentage of the computer
             cpu()
-        elif "joke" in query:
+        elif "joke" in query: #says a joke
             jokes()
-        elif "weather" in query:
+        elif "weather" in query: #weather features
             weather()
-        elif "thank you" in query or "bye" in query or "offline" in query:
+        elif "thank you" in query or "deactivates" in query: #deactives the AI
             quit()
-        else:
-            speak("Say that again please")
