@@ -84,7 +84,7 @@ def open_website(query):
         wb.get(chromepath).open_new_tab(j)
 
 def weather():
-    api_key = "b6f224a6df0022630b28285fe66293ff" #can get in https://openweathermap.org/price
+    api_key = "" #can get in https://openweathermap.org/price
     url = "http://api.openweathermap.org/data/2.5/weather?"
     speak("Which city are you looking at?")
     city = takeCommand().lower()
