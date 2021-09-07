@@ -153,5 +153,5 @@ if __name__ == "__main__":
             jokes()
         elif "weather" in query: #weather features
             weather()
-        elif "thank you" in query or "deactivates" in query: #deactives the AI
+        elif "thank you" in query or "deactivate" in query: #deactives the AI
             quit()
